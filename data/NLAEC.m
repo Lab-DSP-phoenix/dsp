@@ -11,10 +11,10 @@ function [ e ] = NLAEC(x,y,P,L )
 Total_Number_Of_Samples = length(x);
 h_hat = zeros(L,1);
 a_hat = [1;zeros(P-1,1)];
-Threshold = 0.002;%????
-deltau = 0.2;
-alphah = 0.2;
-alphaa = 0.02;
+Threshold = 0.005;
+deltau = 0.005;
+alphah = 0.1;
+alphaa = 0.1;
 frame = zeros(L,1);
 ...
     % the NLAEC loop
@@ -57,6 +57,7 @@ for k = 1:Total_Number_Of_Samples
     end
 
 end
-
+norm(u).^2
+norm(s_hat).^2
 end
 
