@@ -27,13 +27,13 @@ y = awgn(y,30,'measured');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% NL-AEC
-P=3; % can be changed
+P=7; % can be changed
 
 % apply NL-AEC (usign power filters)
-[ e_NL ] = NLAEC();
+[ e_NL ] = NLAEC(ref,y,P,N);
 
 % apply AEC (Linear part only) %use P=1 to include only one basis functions, the linear one x^1 
-[ e_L ] = NLAEC();
+[ e_L ] = NLAEC(ref,y,1,N);
 
 % evaluate both algorithms using the residual to calculate the ERLE (both
 % the avg. ERLE and the instant. ERLE)
