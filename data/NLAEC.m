@@ -12,7 +12,7 @@ Total_Number_Of_Samples = length(x);
 h_hat = zeros(L,1);
 a_hat = [1;zeros(P-1,1)];
 Threshold = 0.005;
-deltau = 0.005;
+deltau = var(x);
 alphah = 0.1;
 alphaa = 0.1;
 frame = zeros(L,1);
@@ -28,17 +28,14 @@ for k = 1:Total_Number_Of_Samples
     % estimate nonlinear signal
     xp = (x(k).^(1:P))';
     Xp =  frame.^(1:P);
-    s_hat = Xp * a_hat;%s_hat vector     
-    ...
+    s_hat = Xp * a_hat;%s_hat vector 256*1
         
 % predict the mic signal using current estimates of the adaptive
 % filters h_hat
     u = Xp' * h_hat;
     y_hat = a_hat' * u;
-        ...
     
 % calculate error signal (residual)
-    if k<L
         e(k) = y(k) - y_hat;
         % adapt after examining current energy (of the far-end)
         if var(frame)>Threshold % i.e., if the far-end has a very low energy, do not perform adaptation.
@@ -46,18 +43,8 @@ for k = 1:Total_Number_Of_Samples
             h_hat = h_hat + alphah ./ norm(s_hat).^2 * s_hat * e(k);
             ... %Adapt
         end
-    else
-        e(k) = y(k) - y_hat;
-        % adapt after examining current energy (of the far-end)
-        if var(frame)>Threshold % i.e., if the far-end has a very low energy, do not perform adaptation.
-            a_hat = a_hat + alphaa ./ (norm(u).^2 + deltau) * u * e(k);
-            h_hat = h_hat + alphah ./ norm(s_hat).^2 * s_hat * e(k);
-            ... %Adapt
-        end
-    end
+    
 
 end
-norm(u).^2
-norm(s_hat).^2
 end
 
