@@ -27,6 +27,7 @@ y = awgn(y,30,'measured');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% NL-AEC
+%P=7,Podd=4; four basis {1,3,5,7}
 P=7; % can be changed
 
 % apply NL-AEC (usign power filters)
@@ -42,16 +43,15 @@ ERLE_avg= mean(ERLE)
 
 
 ERLE_linear = 10 * log10(filter(0.1, [1 -0.9994], y.^2) ./ filter(0.1, [1 -0.9994], (e_L)'.^2));
-ERLE_avg_linear= mean(ERLE_linear)
+ERLE_avg_linear = mean(ERLE_linear)
 
 figure
-subplot(2,1,1)
-plot(ERLE); grid on ; hold on; plot(y)
-title('NLAEC')
-legend('ERLE','speech')
-subplot(2,1,2)
-plot(ERLE_linear); grid on ; hold on; plot(y)
-title('AEC')
-legend('ERLE','speech')
+
+plot(ERLE); grid on ; hold on; plot(ERLE_linear,'--');plot(y)
+title('NLAEC & linearAEC')
+xlabel("iteration k")
+ylabel("ERLE [dB]")
+legend('ERLE-nonlinear','ERLE-linear','speech')
+
 
 

@@ -7,12 +7,12 @@ function [ e ] = NLAEC(x,y,P,L )
 
 
 % initialize
-
+Podd = P * 2 - 1;
 Total_Number_Of_Samples = length(x);
 h_hat = zeros(L,1);
 a_hat = [1;zeros(P-1,1)];
-Threshold = 5*10^(-6);
-deltau = var(x);
+Threshold = 1*10^(-5);
+deltau = var(x);%0.0062
 alphah = 0.1;
 alphaa = 0.4;
 frame = zeros(L,1);
@@ -26,8 +26,8 @@ for k = 1:Total_Number_Of_Samples
         frame = x(k:-1:k-L+1);
     end
     % estimate nonlinear signal
-    xp = (x(k).^(1:P))';
-    Xp =  frame.^(1:P);
+    xp = (x(k).^(1:2:Podd))';
+    Xp =  frame.^(1:2:Podd);
     s_hat = Xp * a_hat;%s_hat vector 256*1
         
 % predict the mic signal using current estimates of the adaptive
