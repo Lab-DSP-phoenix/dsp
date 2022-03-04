@@ -11,12 +11,12 @@ function [ e ] = NLAEC(x,y,P,L )
 Total_Number_Of_Samples = length(x);
 h_hat = zeros(L,1);
 a_hat = [1;zeros(P-1,1)];
-Threshold = 0.005;
+Threshold = 5*10^(-6);
 deltau = var(x);
 alphah = 0.1;
-alphaa = 0.1;
+alphaa = 0.4;
 frame = zeros(L,1);
-...
+
     % the NLAEC loop
 for k = 1:Total_Number_Of_Samples
     % prepare current frame
@@ -41,10 +41,15 @@ for k = 1:Total_Number_Of_Samples
         if var(frame)>Threshold % i.e., if the far-end has a very low energy, do not perform adaptation.
             a_hat = a_hat + alphaa ./ (norm(u).^2 + deltau) * u * e(k);
             h_hat = h_hat + alphah ./ norm(s_hat).^2 * s_hat * e(k);
-            ... %Adapt
+            %Adapt
         end
     
 
 end
+% vare = var(e)
+% vary = var(y)
+% varx = var(x)
+% meanx = mean(x)
+% maxx = max(x)
 end
 
