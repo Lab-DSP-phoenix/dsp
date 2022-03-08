@@ -14,7 +14,7 @@ a_hat = [1;zeros(P-1,1)];
 Threshold = 1*10^(-5);
 deltau = var(x);%0.0062
 alphah = 0.1;
-alphaa = 0.4;
+alphaa = 0.5;
 frame = zeros(L,1);
 
     % the NLAEC loop
